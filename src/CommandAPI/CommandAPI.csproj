@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>c757461a-c1e6-497f-b41f-6c05b626015a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,5 +13,5 @@
     </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.0" />
   </ItemGroup>
-  
+
 </Project>
