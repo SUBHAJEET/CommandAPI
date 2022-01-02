@@ -10,7 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Serialization;
 using Npgsql;
+using AutoMapper;
 
 namespace CommandAPI
 {
@@ -32,9 +34,20 @@ namespace CommandAPI
             services.AddDbContext<CommandContext>(opt => opt.UseNpgsql
                     (builder.ConnectionString));
             //Npgsql.NpgsqlConnection con = Configuration.GetConnectionString("PostgreSqlConnection");
-            
+
+            //Below one is used for using Microsoft.AspNetCore.Mvc.NewtonsoftJson (PATCH requets)
+            services.AddControllers().AddNewtonsoftJson(s =>
+            {
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
+
+            //Below is added to register Controllers
             services.AddControllers();
-            //services.AddScoped<ICommandAPIRepo, MockCommandAPIRepo>();
+
+            //Below one is added to register AutoMapper to use profiles to map Models with DTOs
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            
+            //Below one is added as to represent the implementation of the Interface to the DI system
             services.AddScoped<ICommandAPIRepo, SqlCommandAPIRepo>();
 
         }
